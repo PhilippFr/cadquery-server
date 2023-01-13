@@ -68,6 +68,17 @@ def run(port: int, module_manager: ModuleManager, ui_options: dict, is_dead: boo
         response.headers['Expires'] = 0
         return response
 
+    @app.route('/json', methods=['POST'])
+    def _render_data():
+        content_type = request.headers.get('Content-Type')
+        if content_type == 'application/json':
+            json_model_data = request.json
+            # TODO
+            print(f'Received render request: { json_model_data }')
+            events_queue.put(SSE_MESSAGE_TEMPLATE % json.dumps(json_model_data))
+        else:
+            return 'Content-Type not supported!'
+
     def watchdog() -> None:
         while True:
             last_updated_file = module_manager.get_last_updated_file()
