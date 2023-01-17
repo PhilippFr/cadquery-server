@@ -91,9 +91,9 @@ class CQServerConnector:
         self.url = url
 
     def render(self, name, cq_model):
-        result = get_result(cq_model)
-        assembly = get_assembly(result)
-        json_model = get_json_model(*assembly.children)
+        #result = get_result(cq_model)
+        #assembly = get_assembly(result)
+        json_model = get_json_model(cq_model)
         json_data = get_data(name, json_model)
         self.post_data(json_data)
 
