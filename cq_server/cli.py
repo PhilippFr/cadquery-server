@@ -131,50 +131,12 @@ def main() -> None:
 
     should_raise = (args.cmd != 'run' or args.should_raise)
 
-    from .module_manager import ModuleManager
-
-    module_manager = ModuleManager(args.target, should_raise)
-
-    if args.cmd == 'info':
-        modules = module_manager.get_available_modules().keys()
-        print('Available modules: \n- ' + '\n- '.join(modules))
-        sys_exit()
-
     ui_options = get_ui_options(args)
 
     if args.cmd == 'run':
         from .server import run
 
-        run(args.port, module_manager, ui_options, args.dead)
-
-    if args.cmd == 'build':
-        from .exporter import Exporter
-
-        exporter = Exporter(module_manager)
-
-        if module_manager.target_is_dir:
-            if not args.dest:
-                sys_exit('Destination is mandatory for folder export.')
-            if args.format:
-                sys_exit('Format option is not required when target is a directory.')
-            exporter.build_website(args.dest, ui_options, args.minify)
-            return
-
-        if not args.format:
-            has_file_ext = args.dest and '.' in args.dest
-            file_ext = op.splitext(args.dest)[1] if has_file_ext else None
-
-            args.format = file_ext[1:] if file_ext else 'html'
-
-        if not args.dest or not '.' in args.dest:
-            file_name = f'{ op.splitext(args.target)[0] }.{ args.format }'
-            is_dir = args.dest and not '.' in args.dest
-            args.dest = op.join(args.dest, op.split(file_name)[1]) if is_dir else file_name
-
-        if args.format == 'html':
-            exporter.save_to_html(args.dest, ui_options, args.minify)
-        else:
-            exporter.save_to(args.dest, args.format)
+        run(args.port, ui_options, args.dead)
 
 
 if __name__ == '__main__':

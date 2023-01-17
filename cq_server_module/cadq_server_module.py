@@ -87,9 +87,8 @@ def get_data(module_name, json_model) -> dict:
 
 class CADQServerModule:
 
-    def __init__(self, url, port):
+    def __init__(self, url):
         self.url = url
-        self.port = port
 
     def render(self, name, cq_model):
         result = get_result(cq_model)
@@ -105,6 +104,7 @@ class CADQServerModule:
         # extracting response text 
         resp = r.text
         print(f"Render Response:{resp}")
+        return r
 
 
 class CADQServerModuleError(Exception):
