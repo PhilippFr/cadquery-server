@@ -65,7 +65,6 @@ def run(port: int, ui_options: dict) -> None:
         content_type = request.headers.get('Content-Type')
         if content_type == 'application/json':
             json_model_data = request.json
-            print(f'Received render request: {json_model_data}')
             while next((item for item in modules if item["module_name"] == json_model_data["module_name"]), False):
                 json_model_data["module_name"] = json_model_data["module_name"] + "-Copy"
             modules.append(json_model_data)
