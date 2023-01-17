@@ -1,8 +1,8 @@
 import cadquery as cq
-from cadq_server_module import CADQServerModule
+from cadq_server_connector import CQServerConnector
 
-api = CADQServerModule("http://localhost:5000/json")
+connector = CQServerConnector("http://localhost:5000/json")
 
 model = cq.Workplane().box(1, 1, 1)
 
-api.render("test_model", model)
+connector.render("test_model", model)
