@@ -18,7 +18,7 @@ def get_json_model(assembly_children) -> list:
         assembly_tesselated = _tessellate_group(jcq_assembly)
         assembly_json = numpy_to_json(assembly_tesselated)
     except Exception as error:
-        raise CADQServerModuleError('An error occured when tesselating the assembly.') from error
+        raise CQServerConnectorError('An error occured when tesselating the assembly.') from error
 
     return json.loads(assembly_json)
 
@@ -30,7 +30,7 @@ def get_result(cq_model: CQModel):
     result = cq_model.build()
 
     if not result.success:
-        raise CADQServerModuleError('Error in model', result.exception)
+        raise CQServerConnectorError('Error in model', result.exception)
 
     return result
 
@@ -79,13 +79,13 @@ def get_data(module_name, json_model) -> dict:
             'model': json_model,
             'source': ''
         }
-    except CADQServerModuleError as error:
+    except CQServerConnectorError as error:
         raise (error)
 
     return data
 
 
-class CADQServerModule:
+class CQServerConnector:
 
     def __init__(self, url):
         self.url = url
@@ -107,7 +107,7 @@ class CADQServerModule:
         return r
 
 
-class CADQServerModuleError(Exception):
+class CQServerConnectorError(Exception):
     """Error class used to define ModuleManager errors."""
 
     def __init__(self, message: str, stacktrace: str = ''):

@@ -1,7 +1,7 @@
 import cadquery as cq
-from cadq_server_module import CADQServerModule
+from cadq_server_connector import CQServerConnector
 
-api = CADQServerModule("localhost:5001/json")
+api = CQServerConnector("localhost:5001/json")
 
 height = 60.0
 width = 80.0
